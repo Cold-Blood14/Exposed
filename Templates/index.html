@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPOSED - Information Revealer</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EXPOSED</h1>
+            <p>Reveal your IP, location, ISP, and weather information</p>
+        </header>
+        
+        <main>
+            <button id="getInfoBtn" class="btn">Get Your Information</button>
+            
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <p>Gathering your information...</p>
+            </div>
+            
+            <div class="error" id="error"></div>
+            
+            <div class="result-container" id="resultContainer">
+                <div class="section-title">IP & Location Details</div>
+                <div id="ipInfo"></div>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>ISP Information</h3>
+                        <div id="ispInfo"></div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Weather Details</h3>
+                        <div id="weatherInfo"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('getInfoBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('getInfoBtn');
+            const loader = document.getElementById('loader');
+            const resultContainer = document.getElementById('resultContainer');
+            const errorContainer = document.getElementById('error');
+            
+            // Reset UI
+            btn.disabled = true;
+            loader.style.display = 'block';
+            resultContainer.style.display = 'none';
+            errorContainer.style.display = 'none';
+            errorContainer.textContent = '';
+            
+            try {
+                const response = await fetch('/get_info');
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Unknown error occurred');
+                }
+                
+                // Display IP information
+                let ipInfoHtml = '';
+                for (const [key, value] of Object.entries(data.ip_info)) {
+                    if (typeof value === 'object') continue;
+                    ipInfoHtml += `<div><strong>${key}:</strong> ${value}</div>`;
+                }
+                document.getElementById('ipInfo').innerHTML = ipInfoHtml;
+                
+                // Display ISP information
+                let ispInfoHtml = '';
+                for (const [key, value] of Object.entries(data.isp_info)) {
+                    ispInfoHtml += `<div><strong>${key}:</strong> ${value}</div>`;
+                }
+                document.getElementById('ispInfo').innerHTML = ispInfoHtml;
+                
+                // Display weather information
+                const weatherInfo = data.weather_info;
+                const weatherHtml = `
+                    <div><strong>Temperature:</strong> ${weatherInfo.temp}°C</div>
+                    <div><strong>Conditions:</strong> ${weatherInfo.description}</div>
+                    <div><strong>Humidity:</strong> ${weatherInfo.humidity}%</div>
+                    <div><strong>Wind Speed:</strong> ${weatherInfo.wind_speed} m/s</div>
+                `;
+                document.getElementById('weatherInfo').innerHTML = weatherHtml;
+                
+                // Show results
+                resultContainer.style.display = 'block';
+            } catch (error) {
+                errorContainer.textContent = `Error: ${error.message}`;
+                errorContainer.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
