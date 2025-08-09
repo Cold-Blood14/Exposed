@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='Templates')
 
 # API keys (should use environment variables in production)
 IPSTACK_KEY = os.environ.get('IPSTACK_KEY', '124568be2ee69403abf8f04f6e61d84d')
@@ -75,3 +75,4 @@ def get_info():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
