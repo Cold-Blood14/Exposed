@@ -3,8 +3,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 # API keys
-IPSTACK_KEY = "124568be2ee69403abf8f04f6e61d84d"
-OPENWEATHER_KEY = "cb781abd221bd259dd0df9ae29e2e83c"
+IPSTACK_KEY = "ipstack api key"
+OPENWEATHER_KEY = "openweather api key"
 
 def get_info():
     try:
@@ -88,3 +88,4 @@ result_area.pack(padx=10, pady=15)
 result_area.config(state="disabled")
 
 root.mainloop()
+
