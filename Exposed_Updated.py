@@ -4,8 +4,8 @@ from tkinter import messagebox, scrolledtext
 import webbrowser
 
 # API keys
-IPSTACK_KEY = "124568be2ee69403abf8f04f6e61d84d"
-OPENWEATHER_KEY = "cb781abd221bd259dd0df9ae29e2e83c"
+IPSTACK_KEY = "ipstack api key"
+OPENWEATHER_KEY = "openweather api key"
 
 def safe_val(value):
     """Return 'N/A' if value is None, empty string, or whitespace."""
