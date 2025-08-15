@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXPOSED - Information Revealer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <video autoplay muted loop playsinline id="bgVideo">
+        <source src="{{ url_for('static', filename='videos/1.mp4') }}" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+    <div class="container">
+        <header>
+            <h1>EXPOSED</h1>
+            <p>Reveal your IP, location, ISP, and weather information</p>
+        </header>
+        <main>
+            <button id="getInfoBtn" class="btn">Get Your Information</button>
+            <div id="loadingContainer" style="display:none;">
+                <div id="loadingBarWrapper">
+                    <div id="loadingBar"></div>
+                </div>
+                <span id="loadingPercent">0%</span>
+            </div>
+            <div class="error" id="error"></div>
+
+            <div class="result-container" id="resultContainer">
+                <div class="section-title">IP & Location Details</div>
+                <div id="ipInfo"></div>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>ISP Information</h3>
+                        <div id="ispInfo"></div>
+                    </div>
+                    <div class="info-card">
+                        <h3>Weather Details</h3>
+                        <div id="weatherInfo"></div>
+                    </div>
+                </div>
+                <button id="mapBtn" class="map-btn" disabled>View Network Geolocation</button>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
